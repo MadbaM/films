@@ -20,4 +20,4 @@ Comandos para poner en marcha el proyecto.
 ## Uso del comando de importación
 
 ```bash
-> php bin/console add-movies ‘ruta de nuestro fichero’
+> php bin/console add-movies "ruta de nuestro fichero"
