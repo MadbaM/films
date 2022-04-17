@@ -55,6 +55,17 @@ class AddMoviesCommand extends Command
 
         $decoder = new Serializer([new ObjectNormalizer()],[new CsvEncoder()]);
 
+        if(@file_get_contents($csvRoute) === false){
+            $io->error('No se ha encontrado el fichero indicado');
+            return Command::FAILURE;
+        }else{
+            $extension = pathinfo(parse_url($csvRoute, PHP_URL_PATH), PATHINFO_EXTENSION);
+            if($extension != 'csv'){
+                $io->error('El fichero indicado no es válido');
+                return Command::FAILURE;
+            }
+        }
+
         $moviesCsv = $decoder->decode(file_get_contents($csvRoute), 'csv');
 
         $em = $this->entityManager;
@@ -136,7 +147,7 @@ class AddMoviesCommand extends Command
             $progressBar->advance();
         }
         $progressBar->finish();
-        $io->success('End!');
+        $io->success('La importación ha terminado con éxito!');
 
         return Command::SUCCESS;
     }
